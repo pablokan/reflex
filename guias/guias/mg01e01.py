@@ -33,30 +33,3 @@ def g01e01() -> rx.Component:
         ),
         ),
     )
-
-
-    return rx.dialog.root(
-        rx.dialog.trigger(
-            rx.button(
-                rx.text("Guía 1 - Ejercicio 1"),
-            ),
-        ),
-        rx.dialog.content(
-            rx.hstack(
-            rx.input(
-                placeholder="Primer número",
-                on_blur=St.set_n1,
-            ),
-            rx.input(
-                placeholder="Segundo número",
-                on_blur=St.set_n2,
-            ),
-            rx.button(
-                "Sumar",
-                on_click=St.sumar,
-            ),
-            rx.heading(St.resu),
-        ),
-        ),
-    )
-
