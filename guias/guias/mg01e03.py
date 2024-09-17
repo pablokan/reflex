@@ -16,7 +16,7 @@ def g01e03() -> rx.Component:
     return rx.dialog.root(
         rx.dialog.trigger(
             rx.button(
-                rx.text("Guía 1 - Ejercicio 3"),
+                rx.text("Guía 01 - Ejercicio 03"),
             ),
         ),
         rx.dialog.content(

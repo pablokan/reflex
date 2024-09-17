@@ -16,7 +16,7 @@ def g01e10():
     return rx.dialog.root(
         rx.dialog.trigger(
             rx.button(
-                rx.text("Guía 1 - Ejercicio 10"),
+                rx.text("Guía 01 - Ejercicio 10"),
             ),
         ),
         rx.dialog.content(
