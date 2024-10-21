@@ -1,8 +1,7 @@
 import reflex as rx
-from typing import List
 
 class ListState(rx.State):
-    items: List[str] = ["Write Code", "Sleep", "Have Fun"]
+    items: list[str] = ["Write Code", "Awake", "Have Not Fun"]
     new_item: str
 
     def add_item(self):
