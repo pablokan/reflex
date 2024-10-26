@@ -7,13 +7,16 @@ class Data(rx.State):
     gente: list[list] = []
 
     def obtenerUsuarios(self):
+        print('obtener usuarios')
+        #fields_def = ['item TEXT', 'qty INTEGER', 'price REAL', 'pic TEXT']
+        #d = Database('tienda', *fields_def)
         d = Database('tienda')
-        self.cabecera = d.fieldNames
+        self.cabecera = d.field_names
         self.gente = d.get_all()
 
 
 # frontend
-def mostrarRegistro(record: list):
+def show_record(record: list):
     records = rx.table.row(
             rx.foreach(
                 record,
@@ -23,9 +26,10 @@ def mostrarRegistro(record: list):
     return records
 
 @rx.page(on_load=Data.obtenerUsuarios)
-def index():
+def cTable():
     page = rx.box(
-        rx.heading("Tabla de Datos", align='center'),
+        rx.heading("Tabla de Datos"),
+        rx.button('Obtener datos', on_click=Data.obtenerUsuarios),
         rx.table.root(
             rx.table.header(
                 rx.table.row(
@@ -37,12 +41,13 @@ def index():
             ),
             rx.table.body(
                 rx.foreach(
-                    Data.gente, mostrarRegistro
+                    Data.gente, show_record
                 )
             ),
         ),
     )
     return page
 
-app = rx.App()
-app.add_page(index)
+if __name__ == "__main__":
+    app = rx.App()
+    app.add_page(cTable)

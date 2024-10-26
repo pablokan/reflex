@@ -1,44 +1,25 @@
 import sqlite3
 
-class Database:
-    def __init__(self, db_name: str, fields: list) -> None:
-        self.conn = sqlite3.connect(db_name+'.db')
-        self.cursor = self.conn.cursor()
-        self.table_name = db_name
-        self.fields = [field.split()[0] for field in fields]
-        full_fields = ', '.join(fields)
-        query = f"CREATE TABLE IF NOT EXISTS {self.table_name} (id INTEGER PRIMARY KEY, {full_fields})"
-        self.cursor.execute(query)
-        self.conn.commit()
-        
-    def add(self, *args):
-        self.listar()
-        field_names = ', '.join(self.fields)
-        fields_list = [f"'{field}'" if type(field)==str else str(field) for field in args]
-        field_values = ", ".join(fields_list)
-        query = f"INSERT INTO {self.table_name} ({field_names}) VALUES ({field_values})"
-        print(query)
-        self.cursor.execute(query)
-        self.conn.commit()
-        
-    def listar(self):
-        print('Listado')
-        def kprint(lista_diccionarios):
-            for diccionario in lista_diccionarios:
-                linea = " - ".join(f"{clave}: {valor}" for clave, valor in diccionario.items())
-                print(linea)
+class Database():
+    def __init__(self, dbName: str, *args) -> None:
+        self.cone = sqlite3.connect(dbName+'.db')
+        self.cursor = self.cone.cursor()
+        self.tableName = dbName
+        fields = list(args)
+        if len(fields) != 0:
+            self.fieldNames = ['id'] + [field.split()[0] for field in fields]
+            strFieldsConTipo = ', '.join(fields)
+            query = f"CREATE TABLE IF NOT EXISTS {self.tableName} (id INTEGER PRIMARY KEY, {strFieldsConTipo})"
+            self.cursor.execute(query)
+            self.cone.commit()
+        else:
+            self.cursor.execute(f"PRAGMA table_info({self.tableName})")
+            dataColumnas = self.cursor.fetchall()
+            self.fieldNames = [columna[1] for columna in dataColumnas]      
 
-        self.cursor.execute(f"SELECT * FROM {self.table_name}")
-        todo = self.cursor.fetchall()
-        campos = self.fields
-        lista_completa = [{k: v for k, v in zip(campos, fila)} for fila in todo]
-        kprint(lista_completa)
-
-    def eliminar(self, id):
-        self.cursor.execute(f"DELETE FROM personas WHERE id = {id}")
-        self.conn.commit()
-
-    def cerrar_db(self):
-        self.conn.close()
+    def get_all(self):
+        self.cursor.execute(f"SELECT * FROM {self.tableName}")
+        records = self.cursor.fetchall()
+        return records
 
 
