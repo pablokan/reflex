@@ -1,5 +1,5 @@
 import reflex as rx
 
 config = rx.Config(
-    app_name="mp",
+    app_name="dash",
 )
