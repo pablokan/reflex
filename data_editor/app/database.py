@@ -22,4 +22,9 @@ class Database():
         records = [list(t) for t in self.cursor.fetchall()]
         return records
 
+    def upd(self, id, nombre, edad): #todo
+        self.cursor.execute(
+            f"UPDATE personas SET nombre = '{nombre}', edad = {edad} WHERE id = {id}" 
+        )
+        self.cone.commit()
 
