@@ -8,18 +8,23 @@ class DatEd(rx.State):
     gente: list[list] = []
     cabecera: list = []
     
-    def obtenerDatos(self):
+    def obtenerDatos(self) -> None:
         d = Database('tienda')
         self.cabecera = [{'title': c, 'type': 'str'} for c in d.fieldNames] 
         recordSet = d.get_all()
         self.gente = [[str(valor) for valor in registro] for registro in recordSet]
 
-    def click_cell(self, pos):
+    def click_cell(self, pos) -> None:
         self.clicked_data = f"Cell clicked: {pos}"
 
-    def handle_cell_edited(self, pos, data):
-        row, col = pos
-        self.gente[col][row] = data['data']
+    def handle_cell_edited(self, pos, data) -> None:
+        col, row = pos
+        nuevoValor = data['data']
+        self.gente[row][col] = nuevoValor
+        id = self.gente[row][0]
+        campoModificado = self.cabecera[col]['title']
+        d = Database('tienda')
+        d.upd(id, campoModificado, nuevoValor)
 
 @rx.page(on_load=DatEd.obtenerDatos)    
 def index() -> rx.Component:

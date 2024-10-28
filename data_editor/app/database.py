@@ -22,9 +22,8 @@ class Database():
         records = [list(t) for t in self.cursor.fetchall()]
         return records
 
-    def upd(self, id, nombre, edad): #todo
-        self.cursor.execute(
-            f"UPDATE personas SET nombre = '{nombre}', edad = {edad} WHERE id = {id}" 
-        )
+    def upd(self, id, field, value):
+        valueF = f"'{value}'" if isinstance(value, str) else str(value)
+        query = f"UPDATE {self.tableName} SET {field} = {valueF} WHERE id = {id}"
+        self.cursor.execute(query)
         self.cone.commit()
-
