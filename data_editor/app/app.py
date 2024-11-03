@@ -1,4 +1,3 @@
-# todo -> updates: uno x uno o bien borrar la tabla y agregarla completa?
 import reflex as rx
 from rxconfig import config
 from .database import Database
